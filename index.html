@@ -42,6 +42,18 @@ dialog select{background:white;color:#20172c;border:0;padding:11px;width:100%;bo
 .dialog-actions button:nth-child(2){background:#fff2;color:white}.editor-tag{display:inline-block;color:#ffdc96}
 @media(max-width:700px){.top{padding:16px}.identity img{max-width:130px}.era{display:none}.photo-stage{inset:75px 14px 120px}.heading{left:24px;bottom:159px}.nav{top:45%;height:48px;width:30px;font-size:21px}.prev{left:4px}.next{right:4px}.controlbar{padding:8px}.years{gap:0}.year{font-size:10px;padding:12px 0}.bottom-info{font-size:10px}.tools{gap:5px}.iconbtn{font-size:10px;padding:5px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.manager{max-width:96vw;width:1200px;height:90vh;max-height:90vh;overflow:auto;background:#251c35;color:white}
+.manager-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:15px}
+.manager-card{background:#40314f;border:1px solid #ffffff42;border-radius:7px;overflow:hidden;cursor:grab}
+.manager-card[aria-disabled="true"]{opacity:.4}
+.manager-card img{width:100%;height:115px;object-fit:cover}
+.manager-card div{padding:7px}
+.manager-card small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.manager-card button{font-size:12px;color:white;border:1px solid #ffffff55;background:#ffffff18;padding:5px;margin:3px 2px}
+.manager-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.manager-actions button,.manager-actions label{cursor:pointer;background:#ffffff20;color:white;border:1px solid #ffffff50;border-radius:4px;padding:10px;font-size:12px}
+.manager-card select{width:100%;margin-top:5px;font-size:12px}
+@media(max-width:700px){.manager-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body><main id="app" class="app vintage" aria-label="wescaleIT Flashback">
@@ -50,8 +62,11 @@ dialog select{background:white;color:#20172c;border:0;padding:11px;width:100%;bo
 <header class="top"><div class="identity"><img id="brand" alt="wescaleIT Logo"><span id="brandfallback" class="fallback">WESCALE | IT</span><span class="era" id="era">10 Jahre wescaleIT</span></div><div class="era" id="chapter">UNSERE GESCHICHTE · 2016–2026</div></header>
 <button class="nav prev" type="button" id="prev" aria-label="Vorheriges Foto">‹</button><button class="nav next" type="button" id="next" aria-label="Nächstes Foto">›</button>
 <div class="heading" id="heading"><h1 id="headline"></h1><p id="subline"></p></div>
-<footer class="controlbar"><nav id="years" class="years" aria-label="Jahre"></nav><div class="bottom-info"><span id="counter">2016 · 1 / 1</span><span class="tools"><span id="provisional">Jahre vorläufig zugeordnet</span><button class="iconbtn" id="edit" title="Jahreszuordnung bearbeiten">Jahr ändern</button><button class="iconbtn" id="auto" title="Automatische Wiedergabe">▶ Auto</button><button class="iconbtn" id="full" title="Vollbild">⛶</button></span></div></footer>
+<footer class="controlbar"><nav id="years" class="years" aria-label="Jahre"></nav><div class="bottom-info"><span id="counter">2016 · 1 / 1</span><span class="tools"><span id="provisional">Jahre vorläufig zugeordnet</span><button class="iconbtn" id="manage" title="Bilder sortieren und ausblenden">Bilder verwalten</button><button class="iconbtn" id="edit" title="Jahreszuordnung bearbeiten">Jahr ändern</button><button class="iconbtn" id="auto" title="Automatische Wiedergabe">▶ Auto</button><button class="iconbtn" id="full" title="Vollbild">⛶</button></span></div></footer>
 <dialog id="editor"><h2>Bild einem Jahr zuordnen</h2><p>Die Originaldateien tragen überwiegend keine Jahreszahl im Dateinamen. Die Startzuordnung ist daher nur ein Platzhalter. Wähle für dieses Foto das korrekte Jahr. Deine Änderungen bleiben in diesem Browser gespeichert.</p><p id="filename" style="overflow-wrap:anywhere"></p><select id="yearselect" aria-label="Jahr wählen"></select><div class="dialog-actions"><button id="save">Jahr speichern</button><button id="cancel">Abbrechen</button><button id="reset">Zuordnungen zurücksetzen</button></div></dialog>
+<dialog class="manager" id="manager"><h2>Bilder verwalten</h2><p>Bilder ziehen oder mit Pfeilen umsortieren. Ausblenden entfernt sie aus der Diashow, nicht aus GitHub. Änderungen werden in diesem Browser gespeichert.</p>
+<div class="manager-actions"><button id="closemanager">Fertig</button><button id="downloadcfg">JSON exportieren</button><label for="uploadcfg">JSON importieren</label><input id="uploadcfg" type="file" accept=".json" hidden><button id="unhide">Alle einblenden</button><span id="managercount"></span></div>
+<div class="manager-grid" id="managergrid"></div></dialog>
 </main>
 <script>
 const files=["1D72DEFA-7645-4F19-AB05-0C19219E047A-4356-000001FCA380331A_tmp.JPG","2cb8bdeb-04cf-41dd-a54a-52e824aa929e.JPG","4f7d82cd-f52c-4a46-a39e-55c44ffd627a.JPG","9debd9bc-2857-429b-a1b3-d59a9d3f91d0.JPG","029e5834-c719-48e3-9143-3fc3abe99af1.JPG","37edaa58-c740-484f-8cb8-a231aeef7a3d.JPG","84dee978-66fe-4888-9032-25a6ee92c580.JPG","196c4b72-3b87-4cda-b50e-409dea4cad6e.JPG","271e8822-3cff-400e-95ea-2ffe3490d34c.JPG","496644b8-ee73-4d49-9402-ab006ba06dd2.JPG","bf9b6d72-ecfc-49cf-84aa-6cd9973455aa.JPG","DSC_7956 (2).JPG","e93a4edb-bf87-4d7e-a605-e8ff7354c2c1.JPG","e710ec20-b15f-4e80-80d9-d5b8a2e8ef77.JPG","e50324e3-8700-42b5-96bc-016c1500da6b.JPG","fe30916e-c906-4519-93e8-eded7c373ac8.JPG","IMG_0252.jpg","IMG_0451.JPG","JPEG-Bild-4CA5-81B4-FF-49.jpeg","JPEG-Bild-4CA5-81B4-FF-50.jpeg","JPEG-Bild-4CA5-81B4-FF-51.jpeg","JPEG-Bild-4CA5-81B4-FF-53.jpeg","JPEG-Bild-4CA5-81B4-FF-54.jpeg","JPEG-Bild-4CA5-81B4-FF-55.jpeg","JPEG-Bild-4CA5-81B4-FF-57.jpeg","JPEG-Bild-4CA5-81B4-FF-58.jpeg","JPEG-Bild-4CA5-81B4-FF-60.jpeg","JPEG-Bild-4CA5-81B4-FF-63.jpeg","JPEG-Bild-4CA5-81B4-FF-64.jpeg","JPEG-Bild-4CA5-81B4-FF-69.jpeg","JPEG-Bild-4CA5-81B4-FF-72.jpeg","JPEG-Bild-4CA5-81B4-FF-73.jpeg","JPEG-Bild-4CA5-81B4-FF-74.jpeg","JPEG-Bild-4CA5-81B4-FF-75.jpeg","JPEG-Bild-4CA5-81B4-FF-76.jpeg","JPEG-Bild-4CA5-81B4-FF-77.jpeg","JPEG-Bild-4CA5-81B4-FF-78.jpeg","JPEG-Bild-4CA5-81B4-FF-79.jpeg","JPEG-Bild-4CA5-81B4-FF-80.jpeg","JPEG-Bild-4CA5-81B4-FF-81.jpeg","JPEG-Bild-4CA5-81B4-FF-82.jpeg","JPEG-Bild-4CA5-81B4-FF-83.jpeg","JPEG-Bild-4CA5-81B4-FF-85.jpeg","JPEG-Bild-4CA5-81B4-FF-87.jpeg","JPEG-Bild-4CA5-81B4-FF-88.jpeg","JPEG-Bild-4CA5-81B4-FF-89.jpeg","JPEG-Bild-4CA5-81B4-FF-90.jpeg","JPEG-Bild-4CA5-81B4-FF-91.jpeg","JPEG-Bild-4CA5-81B4-FF-92.jpeg","JPEG-Bild-4CA5-81B4-FF-94.jpeg","JPEG-Bild-4CA5-81B4-FF-95.jpeg","JPEG-Bild-4CA5-81B4-FF-96.jpeg","JPEG-Bild-4CA5-81B4-FF-97.jpeg","JPEG-Bild-4CA5-81B4-FF-98.jpeg","JPEG-Bild-4CA5-81B4-FF-99.jpeg","JPEG-Bild-4CA5-81B4-FF-100.jpeg","JPEG-Bild-4CA5-81B4-FF-102.jpeg","JPEG-Bild-4CA5-81B4-FF-105.jpeg","JPEG-Bild-4CA5-81B4-FF-110.jpeg","JPEG-Bild-4CA5-81B4-FF-111.jpeg","JPEG-Bild-4CA5-81B4-FF-112.jpeg","JPEG-Bild-4CA5-81B4-FF-113.jpeg","JPEG-Bild-4CA5-81B4-FF-114.jpeg","JPEG-Bild-4CA5-81B4-FF-115.jpeg","JPEG-Bild-4CA5-81B4-FF-116.jpeg","JPEG-Bild-4CA5-81B4-FF-117.jpeg","JPEG-Bild-4CA5-81B4-FF-118.jpeg","JPEG-Bild-4CA5-81B4-FF-119.jpeg","JPEG-Bild-4CA5-81B4-FF-120.jpeg","JPEG-Bild-4CA5-81B4-FF-121.jpeg","JPEG-Bild-4CA5-81B4-FF-122.jpeg","JPEG-Bild-4CA5-81B4-FF-123.jpeg","JPEG-Bild-4CA5-81B4-FF-129.jpeg","JPEG-Bild-4CA5-81B4-FF-130.jpeg","JPEG-Bild-4CA5-81B4-FF-132.jpeg","JPEG-Bild-4CA5-81B4-FF-133.jpeg","JPEG-Bild-4CA5-81B4-FF-134.jpeg","JPEG-Bild-4CA5-81B4-FF-135.jpeg","JPEG-Bild-4CA5-81B4-FF-136.jpeg","JPEG-Bild-4CA5-81B4-FF-137.jpeg","JPEG-Bild-4CA5-81B4-FF-138.jpeg","JPEG-Bild-4CA5-81B4-FF-139.jpeg","JPEG-Bild-4CA5-81B4-FF-140.jpeg","JPEG-Bild-4CA5-81B4-FF-141.jpeg","JPEG-Bild-4CA5-81B4-FF-142.jpeg","JPEG-Bild-4CA5-81B4-FF-143.jpeg","JPEG-Bild-4CA5-81B4-FF-144.jpeg","JPEG-Bild-4CA5-81B4-FF-145.jpeg","JPEG-Bild-4CA5-81B4-FF-149.jpeg","JPEG-Bild-4CA5-81B4-FF-153.jpeg","JPEG-Bild-4CA5-81B4-FF-154.jpeg","JPEG-Bild-4CA5-81B4-FF-155.jpeg","JPEG-Bild-4CA5-81B4-FF-157.jpeg","JPEG-Bild-4CA5-81B4-FF-161.jpeg","JPEG-Bild-4CA5-81B4-FF-162.jpeg","JPEG-Bild-4CA5-81B4-FF-163.jpeg","JPEG-Bild-4CA5-81B4-FF-164.jpeg","JPEG-Bild-4CA5-81B4-FF-169.jpeg","JPEG-Bild-4CA5-81B4-FF-170.jpeg","JPEG-Bild-4CA5-81B4-FF-171.jpeg","JPEG-Bild-4CA5-81B4-FF-172.jpeg","JPEG-Bild-4CA5-81B4-FF-173.jpeg","JPEG-Bild-4CA5-81B4-FF-174.jpeg","JPEG-Bild-4CA5-81B4-FF-175.jpeg","JPEG-Bild-4CA5-81B4-FF-176.jpeg","JPEG-Bild-4CA5-81B4-FF-177.jpeg","JPEG-Bild-4CA5-81B4-FF-179.jpeg","JPEG-Bild-4CA5-81B4-FF-182.jpeg","JPEG-Bild-4CA5-81B4-FF-187.jpeg","JPEG-Bild-4CA5-81B4-FF-188.jpeg","JPEG-Bild-4CA5-81B4-FF-189.jpeg","JPEG-Bild-4CA5-81B4-FF-190.jpeg","PNG-Bild-4CA5-81B4-FF-93.png","PNG-Bild-4CA5-81B4-FF-108.png","PNG-Bild-4CA5-81B4-FF-124.png","PNG-Bild-4CA5-81B4-FF-125.png","PNG-Bild-4CA5-81B4-FF-126.png","PNG-Bild-4CA5-81B4-FF-128.png","PNG-Bild-4CA5-81B4-FF-160.png"];
@@ -60,6 +75,13 @@ const markers={2018:["Indien","Ein Kapitel geht zu Ende. Unsere Indien-Offices s
 const storageKey="wesc-flashback-years-v1";
 let assigned={};try{assigned=JSON.parse(localStorage.getItem(storageKey)||"{}")||{}}catch(e){}
 const photos=files.map((name,i)=>({name,year:assigned[name]||years[Math.min(10,Math.floor(i*11/files.length))],corrected:!!assigned[name]}));
+const cfgKey="flashback-curation-v1";
+let cfg={};try{cfg=JSON.parse(localStorage.getItem(cfgKey)||"{}")}catch(e){}
+const ordering=Array.isArray(cfg.order)?cfg.order:[];
+photos.sort((a,b)=>{const x=ordering.indexOf(a.name),y=ordering.indexOf(b.name);return (x<0?files.indexOf(a.name)+10000:x)-(y<0?files.indexOf(b.name)+10000:y)});
+photos.forEach(p=>p.hidden=Array.isArray(cfg.hidden)&&cfg.hidden.includes(p.name));
+function persist(){localStorage.setItem(cfgKey,JSON.stringify({order:photos.map(p=>p.name),hidden:photos.filter(p=>p.hidden).map(p=>p.name)}))}
+function nextShowing(i,d){for(let n=0;n<photos.length;n++){i=(i+d+photos.length)%photos.length;if(!photos[i].hidden)return i}return -1}
 let ix=-1,timer=null;
 const $=id=>document.getElementById(id);
 function src(name){return encodeURI(name).replace(/#/g,"%23")}
@@ -80,9 +102,9 @@ $("chapter").textContent=vintage?"WESCALE IT · DIE ANFÄNGE":"wescaleIT · NO B
 [...$("years").children].forEach(b=>{b.classList.toggle("active",Number(b.dataset.year)===year);b.classList.toggle("current",photos.some(x=>x.corrected&&x.year===Number(b.dataset.year)))});
 }
 function goto(n){show(n)}
-function forward(){goto(ix+1>photos.length-1?-1:ix+1)}
-function back(){goto(ix<=-1?photos.length-1:ix-1)}
-for(const y of years){const b=document.createElement("button");b.textContent=y;b.type="button";b.className="year";b.dataset.year=y;b.onclick=()=>{const found=photos.findIndex(p=>p.year===y);goto(found<0?-1:found)};$("years").appendChild(b);const o=document.createElement("option");o.value=y;o.textContent=y;$("yearselect").appendChild(o)}
+function forward(){goto(ix<0?photos.findIndex(p=>!p.hidden):nextShowing(ix,1))}
+function back(){goto(ix<0?photos.findLastIndex(p=>!p.hidden):nextShowing(ix,-1))}
+for(const y of years){const b=document.createElement("button");b.textContent=y;b.type="button";b.className="year";b.dataset.year=y;b.onclick=()=>{const found=photos.findIndex(p=>p.year===y&&!p.hidden);goto(found<0?-1:found)};$("years").appendChild(b);const o=document.createElement("option");o.value=y;o.textContent=y;$("yearselect").appendChild(o)}
 $("prev").onclick=back;$("next").onclick=forward;
 $("auto").onclick=()=>{if(timer){clearInterval(timer);timer=null;$("auto").textContent="▶ Auto"}else{timer=setInterval(forward,5500);$("auto").textContent="❚❚ Pause"}};
 $("full").onclick=()=>{if(document.fullscreenElement)document.exitFullscreen?.();else document.documentElement.requestFullscreen?.()};
@@ -90,6 +112,32 @@ $("edit").onclick=()=>{if(ix<0)return;$("filename").textContent=photos[ix].name;
 $("cancel").onclick=()=>$("editor").close();
 $("save").onclick=()=>{if(ix<0)return;photos[ix].year=Number($("yearselect").value);photos[ix].corrected=true;assigned[photos[ix].name]=photos[ix].year;localStorage.setItem(storageKey,JSON.stringify(assigned));$("editor").close();show(ix)};
 $("reset").onclick=()=>{if(!confirm("Alle manuellen Jahreszuordnungen löschen?"))return;localStorage.removeItem(storageKey);location.reload()};
-document.addEventListener("keydown",e=>{if($("editor").open)return;if(["ArrowRight"," ","PageDown"].includes(e.key)){e.preventDefault();forward()}if(["ArrowLeft","PageUp"].includes(e.key)){e.preventDefault();back()}if(e.key==="Home")show(-1);if(e.key==="End")show(photos.length-1);if(e.key.toLowerCase()==="f")$("full").click()});
+document.addEventListener("keydown",e=>{if($("editor").open)return;if(["ArrowRight"," ","PageDown"].includes(e.key)){e.preventDefault();forward()}if(["ArrowLeft","PageUp"].includes(e.key)){e.preventDefault();back()}if(e.key==="Home")show(-1);if(e.key==="End")show(photos.findLastIndex(p=>!p.hidden));if(e.key.toLowerCase()==="f")$("full").click()});
+$("manage").onclick=()=>{if(timer)$("auto").click();renderManager();$("manager").showModal()};
+$("closemanager").onclick=()=>{$("manager").close();show(ix)};
+function renderManager(){
+ const grid=$("managergrid");grid.replaceChildren();
+ $("managercount").textContent=photos.filter(p=>!p.hidden).length+" sichtbar / "+photos.length+" gesamt";
+ photos.forEach((p,i)=>{
+  const card=document.createElement("article");card.className="manager-card";card.draggable=true;card.dataset.name=p.name;
+  card.setAttribute("aria-disabled",String(p.hidden));
+  const img=document.createElement("img");img.loading="lazy";img.src=src(p.name);img.alt="";card.append(img);
+  const body=document.createElement("div");const name=document.createElement("small");name.textContent=(i+1)+". "+p.name;name.title=p.name;body.append(name);
+  const select=document.createElement("select");years.forEach(y=>{const o=document.createElement("option");o.value=y;o.textContent=y;select.append(o)});
+  select.value=p.year;select.onchange=()=>{p.year=Number(select.value);p.corrected=true;assigned[p.name]=p.year;localStorage.setItem(storageKey,JSON.stringify(assigned))};body.append(select);
+  const control=(label,fn)=>{const b=document.createElement("button");b.textContent=label;b.onclick=fn;body.append(b)};
+  control("←",()=>{if(i){[photos[i-1],photos[i]]=[photos[i],photos[i-1]];persist();renderManager()}});
+  control("→",()=>{if(i<photos.length-1){[photos[i+1],photos[i]]=[photos[i],photos[i+1]];persist();renderManager()}});
+  control(p.hidden?"Einblenden":"Ausblenden",()=>{p.hidden=!p.hidden;persist();renderManager()});
+  card.append(body);
+  card.ondragstart=e=>e.dataTransfer.setData("text/plain",p.name);
+  card.ondragover=e=>e.preventDefault();
+  card.ondrop=e=>{e.preventDefault();const name=e.dataTransfer.getData("text/plain");const from=photos.findIndex(x=>x.name===name);const to=photos.findIndex(x=>x.name===p.name);if(from<0||to<0||from===to)return;const [moving]=photos.splice(from,1);photos.splice(to,0,moving);persist();renderManager()};
+  grid.append(card);
+ });
+}
+$("unhide").onclick=()=>{photos.forEach(p=>p.hidden=false);persist();renderManager()};
+$("downloadcfg").onclick=()=>{const output={version:1,order:photos.map(p=>p.name),hidden:photos.filter(p=>p.hidden).map(p=>p.name),years:assigned};const blob=new Blob([JSON.stringify(output,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="wesc-flashback-config.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+$("uploadcfg").onchange=async e=>{try{const data=JSON.parse(await e.target.files[0].text());if(!Array.isArray(data.order))throw Error("Ungültige Datei");const ranks=new Map(data.order.map((name,i)=>[name,i]));photos.sort((a,b)=>(ranks.get(a.name)??10000+files.indexOf(a.name))-(ranks.get(b.name)??10000+files.indexOf(b.name)));const hidden=new Set(data.hidden||[]);photos.forEach(p=>p.hidden=hidden.has(p.name));if(data.years&&typeof data.years==="object"){for(const p of photos){if(years.includes(data.years[p.name])){p.year=data.years[p.name];p.corrected=true;assigned[p.name]=p.year}}localStorage.setItem(storageKey,JSON.stringify(assigned))}persist();renderManager();show(-1)}catch(err){alert("Import fehlgeschlagen: "+err.message)}e.target.value=""};
 show(-1);
 </script></body></html>
