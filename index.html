@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10 Jahre wescaleIT · Flashback</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+:root{--midnight:#281835;--blue:#3643a1;--mint:#7bdcb5;--peach:#fe9d7b;--yellow:#f8c348}
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden}body{font-family:"Space Grotesk",Arial,sans-serif;background:#110e17;color:#f4faff}
+button,select{font:inherit}button{cursor:pointer}.app{height:100dvh;position:relative;isolation:isolate;background:linear-gradient(135deg,#281835,#303769);transition:background 700ms}.app.vintage{background:#e9eef4;color:#032a58;font-family:Arial,Helvetica,sans-serif}
+.app::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(to bottom,rgba(0,0,0,.52),transparent 28%,transparent 61%,rgba(0,0,0,.85));opacity:1}
+.app.vintage::after{background:linear-gradient(to bottom,rgba(6,30,69,.56),transparent 28%,transparent 53%,rgba(4,27,54,.85))}
+.backdrop{position:absolute;inset:-24px;background-position:center;background-size:cover;filter:blur(34px) brightness(.43);opacity:.55;transition:background-image .3s}
+.photo-stage{position:absolute;inset:76px 72px 115px;display:flex;align-items:center;justify-content:center;z-index:1;overflow:hidden}
+.photo-stage img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 40px #0005);animation:fade .6s both}
+.photo-stage img.hidden{display:none}
+@keyframes fade{from{opacity:.15;transform:scale(.985)}to{opacity:1;transform:scale(1)}}
+.top{position:absolute;z-index:3;top:0;left:0;right:0;padding:24px 42px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.identity{display:flex;align-items:center;gap:20px}.identity img{max-width:180px;max-height:55px;object-fit:contain}.identity .fallback{font-weight:700;letter-spacing:.025em;font-size:20px;display:none}
+.vintage .identity .fallback{font-family:Arial,sans-serif;text-transform:uppercase;color:#fff;letter-spacing:.14em;text-shadow:0 1px 5px #06396c}
+.era{font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.8;color:#fff}
+.heading{position:absolute;z-index:3;left:5.4vw;bottom:170px;pointer-events:none;max-width:min(75vw,1100px);text-shadow:0 3px 18px #0009}
+.heading h1{font-size:clamp(44px,8vw,126px);line-height:.95;margin:0;letter-spacing:-.07em;font-weight:700;color:white}
+.vintage .heading h1{font-family:Arial,sans-serif;font-weight:700;letter-spacing:-.06em;text-transform:none}
+.heading p{font-size:clamp(14px,1.5vw,21px);margin:16px 0 0;color:#fff;max-width:650px}
+.heading[hidden]{display:none}
+.controlbar{position:absolute;z-index:4;bottom:0;left:0;right:0;padding:18px 4vw 21px;background:#130f20e8;border-top:1px solid #ffffff36;backdrop-filter:blur(18px)}
+.vintage .controlbar{background:#06294ce8;border-top:3px solid #8ab0d6}
+.years{display:grid;grid-template-columns:repeat(11,1fr);gap:5px}
+.year{position:relative;background:none;color:#fff9;border:0;padding:14px 1px 12px;font-weight:600;font-size:clamp(12px,1.2vw,18px);border-bottom:3px solid #ffffff28;transition:color .2s,border-color .2s}
+.year:hover,.year.active{color:white;border-color:var(--mint)}.vintage .year.active{border-color:#8ec7ff}
+.year.current:before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--yellow)}
+.bottom-info{display:flex;justify-content:space-between;gap:16px;align-items:center;font-size:12px;color:#ffffffad;margin-top:13px;letter-spacing:.06em}
+.nav{position:absolute;z-index:3;top:44%;width:48px;height:70px;border:1px solid #fff5;border-radius:6px;background:#130f2070;color:white;font-size:30px;transition:background .2s}
+.nav:hover{background:#281835d0}.prev{left:15px}.next{right:15px}
+.tools{display:flex;align-items:center;gap:13px}.iconbtn{border:1px solid #fff5;border-radius:4px;color:#fff;background:#ffffff14;padding:7px 10px;font-size:12px}.iconbtn:hover{background:#ffffff36}
+dialog{border:1px solid #fff4;border-radius:12px;background:#21192e;color:white;max-width:460px;width:calc(100vw - 30px);box-shadow:0 20px 90px #000b;padding:25px}dialog::backdrop{background:#05040ac4}
+dialog h2{margin:0 0 12px;font-size:22px}dialog p{line-height:1.6;font-size:14px;color:#dfd8e5}
+dialog select{background:white;color:#20172c;border:0;padding:11px;width:100%;border-radius:5px;margin-bottom:14px}
+.dialog-actions{display:flex;gap:8px;flex-wrap:wrap}.dialog-actions button{border:0;padding:10px 14px;border-radius:4px;background:var(--mint);color:#1c2030}
+.dialog-actions button:nth-child(2){background:#fff2;color:white}.editor-tag{display:inline-block;color:#ffdc96}
+@media(max-width:700px){.top{padding:16px}.identity img{max-width:130px}.era{display:none}.photo-stage{inset:75px 14px 120px}.heading{left:24px;bottom:159px}.nav{top:45%;height:48px;width:30px;font-size:21px}.prev{left:4px}.next{right:4px}.controlbar{padding:8px}.years{gap:0}.year{font-size:10px;padding:12px 0}.bottom-info{font-size:10px}.tools{gap:5px}.iconbtn{font-size:10px;padding:5px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body><main id="app" class="app vintage" aria-label="wescaleIT Flashback">
+<div class="backdrop" id="backdrop"></div>
+<div class="photo-stage"><img id="photo" alt="Foto aus dem wescaleIT Bildarchiv"></div>
+<header class="top"><div class="identity"><img id="brand" alt="wescaleIT Logo"><span id="brandfallback" class="fallback">WESCALE | IT</span><span class="era" id="era">10 Jahre wescaleIT</span></div><div class="era" id="chapter">UNSERE GESCHICHTE · 2016–2026</div></header>
+<button class="nav prev" type="button" id="prev" aria-label="Vorheriges Foto">‹</button><button class="nav next" type="button" id="next" aria-label="Nächstes Foto">›</button>
+<div class="heading" id="heading"><h1 id="headline"></h1><p id="subline"></p></div>
+<footer class="controlbar"><nav id="years" class="years" aria-label="Jahre"></nav><div class="bottom-info"><span id="counter">2016 · 1 / 1</span><span class="tools"><span id="provisional">Jahre vorläufig zugeordnet</span><button class="iconbtn" id="edit" title="Jahreszuordnung bearbeiten">Jahr ändern</button><button class="iconbtn" id="auto" title="Automatische Wiedergabe">▶ Auto</button><button class="iconbtn" id="full" title="Vollbild">⛶</button></span></div></footer>
+<dialog id="editor"><h2>Bild einem Jahr zuordnen</h2><p>Die Originaldateien tragen überwiegend keine Jahreszahl im Dateinamen. Die Startzuordnung ist daher nur ein Platzhalter. Wähle für dieses Foto das korrekte Jahr. Deine Änderungen bleiben in diesem Browser gespeichert.</p><p id="filename" style="overflow-wrap:anywhere"></p><select id="yearselect" aria-label="Jahr wählen"></select><div class="dialog-actions"><button id="save">Jahr speichern</button><button id="cancel">Abbrechen</button><button id="reset">Zuordnungen zurücksetzen</button></div></dialog>
+</main>
+<script>
+const files=["1D72DEFA-7645-4F19-AB05-0C19219E047A-4356-000001FCA380331A_tmp.JPG","2cb8bdeb-04cf-41dd-a54a-52e824aa929e.JPG","4f7d82cd-f52c-4a46-a39e-55c44ffd627a.JPG","9debd9bc-2857-429b-a1b3-d59a9d3f91d0.JPG","029e5834-c719-48e3-9143-3fc3abe99af1.JPG","37edaa58-c740-484f-8cb8-a231aeef7a3d.JPG","84dee978-66fe-4888-9032-25a6ee92c580.JPG","196c4b72-3b87-4cda-b50e-409dea4cad6e.JPG","271e8822-3cff-400e-95ea-2ffe3490d34c.JPG","496644b8-ee73-4d49-9402-ab006ba06dd2.JPG","bf9b6d72-ecfc-49cf-84aa-6cd9973455aa.JPG","DSC_7956 (2).JPG","e93a4edb-bf87-4d7e-a605-e8ff7354c2c1.JPG","e710ec20-b15f-4e80-80d9-d5b8a2e8ef77.JPG","e50324e3-8700-42b5-96bc-016c1500da6b.JPG","fe30916e-c906-4519-93e8-eded7c373ac8.JPG","IMG_0252.jpg","IMG_0451.JPG","JPEG-Bild-4CA5-81B4-FF-49.jpeg","JPEG-Bild-4CA5-81B4-FF-50.jpeg","JPEG-Bild-4CA5-81B4-FF-51.jpeg","JPEG-Bild-4CA5-81B4-FF-53.jpeg","JPEG-Bild-4CA5-81B4-FF-54.jpeg","JPEG-Bild-4CA5-81B4-FF-55.jpeg","JPEG-Bild-4CA5-81B4-FF-57.jpeg","JPEG-Bild-4CA5-81B4-FF-58.jpeg","JPEG-Bild-4CA5-81B4-FF-60.jpeg","JPEG-Bild-4CA5-81B4-FF-63.jpeg","JPEG-Bild-4CA5-81B4-FF-64.jpeg","JPEG-Bild-4CA5-81B4-FF-69.jpeg","JPEG-Bild-4CA5-81B4-FF-72.jpeg","JPEG-Bild-4CA5-81B4-FF-73.jpeg","JPEG-Bild-4CA5-81B4-FF-74.jpeg","JPEG-Bild-4CA5-81B4-FF-75.jpeg","JPEG-Bild-4CA5-81B4-FF-76.jpeg","JPEG-Bild-4CA5-81B4-FF-77.jpeg","JPEG-Bild-4CA5-81B4-FF-78.jpeg","JPEG-Bild-4CA5-81B4-FF-79.jpeg","JPEG-Bild-4CA5-81B4-FF-80.jpeg","JPEG-Bild-4CA5-81B4-FF-81.jpeg","JPEG-Bild-4CA5-81B4-FF-82.jpeg","JPEG-Bild-4CA5-81B4-FF-83.jpeg","JPEG-Bild-4CA5-81B4-FF-85.jpeg","JPEG-Bild-4CA5-81B4-FF-87.jpeg","JPEG-Bild-4CA5-81B4-FF-88.jpeg","JPEG-Bild-4CA5-81B4-FF-89.jpeg","JPEG-Bild-4CA5-81B4-FF-90.jpeg","JPEG-Bild-4CA5-81B4-FF-91.jpeg","JPEG-Bild-4CA5-81B4-FF-92.jpeg","JPEG-Bild-4CA5-81B4-FF-94.jpeg","JPEG-Bild-4CA5-81B4-FF-95.jpeg","JPEG-Bild-4CA5-81B4-FF-96.jpeg","JPEG-Bild-4CA5-81B4-FF-97.jpeg","JPEG-Bild-4CA5-81B4-FF-98.jpeg","JPEG-Bild-4CA5-81B4-FF-99.jpeg","JPEG-Bild-4CA5-81B4-FF-100.jpeg","JPEG-Bild-4CA5-81B4-FF-102.jpeg","JPEG-Bild-4CA5-81B4-FF-105.jpeg","JPEG-Bild-4CA5-81B4-FF-110.jpeg","JPEG-Bild-4CA5-81B4-FF-111.jpeg","JPEG-Bild-4CA5-81B4-FF-112.jpeg","JPEG-Bild-4CA5-81B4-FF-113.jpeg","JPEG-Bild-4CA5-81B4-FF-114.jpeg","JPEG-Bild-4CA5-81B4-FF-115.jpeg","JPEG-Bild-4CA5-81B4-FF-116.jpeg","JPEG-Bild-4CA5-81B4-FF-117.jpeg","JPEG-Bild-4CA5-81B4-FF-118.jpeg","JPEG-Bild-4CA5-81B4-FF-119.jpeg","JPEG-Bild-4CA5-81B4-FF-120.jpeg","JPEG-Bild-4CA5-81B4-FF-121.jpeg","JPEG-Bild-4CA5-81B4-FF-122.jpeg","JPEG-Bild-4CA5-81B4-FF-123.jpeg","JPEG-Bild-4CA5-81B4-FF-129.jpeg","JPEG-Bild-4CA5-81B4-FF-130.jpeg","JPEG-Bild-4CA5-81B4-FF-132.jpeg","JPEG-Bild-4CA5-81B4-FF-133.jpeg","JPEG-Bild-4CA5-81B4-FF-134.jpeg","JPEG-Bild-4CA5-81B4-FF-135.jpeg","JPEG-Bild-4CA5-81B4-FF-136.jpeg","JPEG-Bild-4CA5-81B4-FF-137.jpeg","JPEG-Bild-4CA5-81B4-FF-138.jpeg","JPEG-Bild-4CA5-81B4-FF-139.jpeg","JPEG-Bild-4CA5-81B4-FF-140.jpeg","JPEG-Bild-4CA5-81B4-FF-141.jpeg","JPEG-Bild-4CA5-81B4-FF-142.jpeg","JPEG-Bild-4CA5-81B4-FF-143.jpeg","JPEG-Bild-4CA5-81B4-FF-144.jpeg","JPEG-Bild-4CA5-81B4-FF-145.jpeg","JPEG-Bild-4CA5-81B4-FF-149.jpeg","JPEG-Bild-4CA5-81B4-FF-153.jpeg","JPEG-Bild-4CA5-81B4-FF-154.jpeg","JPEG-Bild-4CA5-81B4-FF-155.jpeg","JPEG-Bild-4CA5-81B4-FF-157.jpeg","JPEG-Bild-4CA5-81B4-FF-161.jpeg","JPEG-Bild-4CA5-81B4-FF-162.jpeg","JPEG-Bild-4CA5-81B4-FF-163.jpeg","JPEG-Bild-4CA5-81B4-FF-164.jpeg","JPEG-Bild-4CA5-81B4-FF-169.jpeg","JPEG-Bild-4CA5-81B4-FF-170.jpeg","JPEG-Bild-4CA5-81B4-FF-171.jpeg","JPEG-Bild-4CA5-81B4-FF-172.jpeg","JPEG-Bild-4CA5-81B4-FF-173.jpeg","JPEG-Bild-4CA5-81B4-FF-174.jpeg","JPEG-Bild-4CA5-81B4-FF-175.jpeg","JPEG-Bild-4CA5-81B4-FF-176.jpeg","JPEG-Bild-4CA5-81B4-FF-177.jpeg","JPEG-Bild-4CA5-81B4-FF-179.jpeg","JPEG-Bild-4CA5-81B4-FF-182.jpeg","JPEG-Bild-4CA5-81B4-FF-187.jpeg","JPEG-Bild-4CA5-81B4-FF-188.jpeg","JPEG-Bild-4CA5-81B4-FF-189.jpeg","JPEG-Bild-4CA5-81B4-FF-190.jpeg","PNG-Bild-4CA5-81B4-FF-93.png","PNG-Bild-4CA5-81B4-FF-108.png","PNG-Bild-4CA5-81B4-FF-124.png","PNG-Bild-4CA5-81B4-FF-125.png","PNG-Bild-4CA5-81B4-FF-126.png","PNG-Bild-4CA5-81B4-FF-128.png","PNG-Bild-4CA5-81B4-FF-160.png"];
+const years=Array.from({length:11},(_,i)=>2016+i);
+const markers={2018:["Indien","Ein Kapitel geht zu Ende. Unsere Indien-Offices schließen."],2020:["Corona.","Plötzlich ist alles anders."],2026:["10 Jahre.","Und wir sind noch lange nicht fertig."]};
+const storageKey="wesc-flashback-years-v1";
+let assigned={};try{assigned=JSON.parse(localStorage.getItem(storageKey)||"{}")||{}}catch(e){}
+const photos=files.map((name,i)=>({name,year:assigned[name]||years[Math.min(10,Math.floor(i*11/files.length))],corrected:!!assigned[name]}));
+let ix=-1,timer=null;
+const $=id=>document.getElementById(id);
+function src(name){return encodeURI(name).replace(/#/g,"%23")}
+function show(n){ix=Math.max(-1,Math.min(photos.length-1,n));const intro=ix<0;const p=photos[ix];let year=intro?2016:p.year;const vintage=year<2020;
+$("app").classList.toggle("vintage",vintage);
+$("brand").src=vintage?"logo-alt.png":"https://www.wescaleit.com/images/wescaleIT_logo.svg";
+$("brand").onerror=()=>{$("brand").style.display="none";$("brandfallback").style.display="inline"};
+$("brand").onload=()=>{$("brand").style.display="block";$("brandfallback").style.display="none"};
+$("photo").style.display=intro?"none":"block";
+$("backdrop").style.backgroundImage=intro?"none":'url("'+src(p.name)+'")';
+if(!intro){$("photo").src=src(p.name);$("photo").onerror=()=>{if(ix<photos.length-1)show(ix+1);else{$("photo").alt="Bilddatei nicht verfügbar";$("photo").removeAttribute("src")}}}
+$("heading").hidden=!intro&&!markers[year];
+$("headline").textContent=intro?"10 Jahre.":markers[year]?.[0]||"";
+$("subline").textContent=intro?"Eine Geschichte in Bildern. 2016 bis 2026.":markers[year]?.[1]||"";
+$("counter").textContent=intro?"START":year+" · "+(ix+1)+" / "+photos.length;
+$("provisional").textContent=intro?"Bilder aus dem GitHub-Archiv":p.corrected?"Jahr bestätigt":"Jahr vorläufig";
+$("chapter").textContent=vintage?"WESCALE IT · DIE ANFÄNGE":"wescaleIT · NO BULLSHIT. JUST QUALITY.";
+[...$("years").children].forEach(b=>{b.classList.toggle("active",Number(b.dataset.year)===year);b.classList.toggle("current",photos.some(x=>x.corrected&&x.year===Number(b.dataset.year)))});
+}
+function goto(n){show(n)}
+function forward(){goto(ix+1>photos.length-1?-1:ix+1)}
+function back(){goto(ix<=-1?photos.length-1:ix-1)}
+for(const y of years){const b=document.createElement("button");b.textContent=y;b.type="button";b.className="year";b.dataset.year=y;b.onclick=()=>{const found=photos.findIndex(p=>p.year===y);goto(found<0?-1:found)};$("years").appendChild(b);const o=document.createElement("option");o.value=y;o.textContent=y;$("yearselect").appendChild(o)}
+$("prev").onclick=back;$("next").onclick=forward;
+$("auto").onclick=()=>{if(timer){clearInterval(timer);timer=null;$("auto").textContent="▶ Auto"}else{timer=setInterval(forward,5500);$("auto").textContent="❚❚ Pause"}};
+$("full").onclick=()=>{if(document.fullscreenElement)document.exitFullscreen?.();else document.documentElement.requestFullscreen?.()};
+$("edit").onclick=()=>{if(ix<0)return;$("filename").textContent=photos[ix].name;$("yearselect").value=photos[ix].year;$("editor").showModal()};
+$("cancel").onclick=()=>$("editor").close();
+$("save").onclick=()=>{if(ix<0)return;photos[ix].year=Number($("yearselect").value);photos[ix].corrected=true;assigned[photos[ix].name]=photos[ix].year;localStorage.setItem(storageKey,JSON.stringify(assigned));$("editor").close();show(ix)};
+$("reset").onclick=()=>{if(!confirm("Alle manuellen Jahreszuordnungen löschen?"))return;localStorage.removeItem(storageKey);location.reload()};
+document.addEventListener("keydown",e=>{if($("editor").open)return;if(["ArrowRight"," ","PageDown"].includes(e.key)){e.preventDefault();forward()}if(["ArrowLeft","PageUp"].includes(e.key)){e.preventDefault();back()}if(e.key==="Home")show(-1);if(e.key==="End")show(photos.length-1);if(e.key.toLowerCase()==="f")$("full").click()});
+show(-1);
+</script></body></html>
